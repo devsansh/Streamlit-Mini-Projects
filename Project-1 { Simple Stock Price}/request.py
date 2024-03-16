@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 import requests
 from datetime import datetime, timedelta
-API_KEY = 'C6MLI6ZMEUDMGA3L'
 
 def fetch_stock_data(symbol, start_date, end_date):
   url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={symbol}&apikey={API_KEY}&datatype=csv&startDate={start_date}&endDate={end_date}"
@@ -16,7 +15,7 @@ def fetch_stock_data(symbol, start_date, end_date):
 st.title("Wall of Stocks:")
 
 # Date settings:
-st.header("Choose Time Period:")
+st.header("Choose :blue[time_period]:red[:]")
 today = datetime.now()
 col1, col2 = st.columns(2)
 with col1:
