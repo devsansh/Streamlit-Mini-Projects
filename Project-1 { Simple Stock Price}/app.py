@@ -5,6 +5,9 @@ import requests
 import yfinance as yf
 from datetime import datetime, timedelta
 import plotly.express as px
+from alpha_vantage.fundamentaldata import FundamentalData
+
+#------------------------------------#
 
 st.title("Walls of Stocks:")
 
@@ -62,11 +65,34 @@ with pricing_data:
    st.write('Annual return:',annul_returns,"%")
    std_deviation = np.std(price_change_data['% Change'])*np.sqrt(252)
    st.write('Standard Deviation:',std_deviation*100,'%')
-   st.wrie('Risk Adj. return:',std_deviation*100,"%")
+   st.write('Risk Adj. return:',std_deviation*100,"%")
+
 #-------------------------------------------------------#
 with fundamental_data:
    st.subheader('Fundamental')
+   API_KEY = 'C6MLI6ZMEUDMGA3L'
+   fundamental = FundamentalData(API_KEY,output_format = 'pandas')
+   st.subheader('Balance Sheet:')
+   balance_sheet = fundamental.get_balance_sheet_annual(ticker)[0]
+   balance_sheet_1 =balance_sheet.T[2:]
+   balance_sheet_1.columns = list(balance_sheet.T.iloc[0])
+   st.write(balance_sheet_1)
+
+   # ********************** #
    
+   st.subheader("Income Statement:")
+   income_statement = fundamental.get_income_statement_annual(ticker)[0]
+   income_statement_1 = income_statement.T[2:]
+   income_statement_1.columns = list(income_statement.T.iloc[0])
+   st.write(income_statement_1)
+
+   #**********************#
+
+   st.subheader('Cash Flow Statement:')
+   cash_flow = fundamental.get_cash_flow_annual(ticker)[0]
+   cash_flow_1 = cash_flow.T[2:]
+   cash_flow_1.columns = list(cash_flow.T.iloc[0])
+   st.write(cash_flow_1)   
 #-------------------------------------------------------#
 with news:
    st.subheader('Latest TOP10')

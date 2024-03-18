@@ -1,0 +1,2 @@
+API_KEY = 'C6MLI6ZMEUDMGA3L' Alfa Vantage
+API_KEY = '' Yfinance
