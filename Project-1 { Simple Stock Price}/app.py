@@ -6,10 +6,19 @@ import yfinance as yf
 from datetime import datetime, timedelta
 import plotly.express as px
 from alpha_vantage.fundamentaldata import FundamentalData
+from stocknews import StockNews
 
 #------------------------------------#
 
-st.title("Walls of Stocks:")
+st.title("Walls of Stocks 📈:")
+
+# col_1,col_2,col_3 = st.columns(3)
+# with col_1:
+#    st.subheader("Annuals return:")
+# with col_2:
+#    st.subheader(Standard Deviation:)
+# with col_3:
+#    st.subheader(Risk Adj. return:)
 
 #Def to load Stock names in SelectBox
 DATA_FILE = 'file.csv'
@@ -49,7 +58,7 @@ with st.sidebar:
 
 ticker_data = yf.download(ticker,start = start_date, end = end_date )
 
-#st.write(ticker_data)
+st.write(ticker_data)
 
 figure_1 = px.line(ticker_data, x = ticker_data['Adj Close'],title = ticker)
 st.plotly_chart(figure_1)
@@ -62,6 +71,7 @@ with pricing_data:
    price_change_data.dropna(inplace = True)
    st.write(price_change_data)
    annul_returns = price_change_data['% Change'].mean()*252*100
+
    st.write('Annual return:',annul_returns,"%")
    std_deviation = np.std(price_change_data['% Change'])*np.sqrt(252)
    st.write('Standard Deviation:',std_deviation*100,'%')
@@ -79,7 +89,7 @@ with fundamental_data:
    st.write(balance_sheet_1)
 
    # ********************** #
-   
+
    st.subheader("Income Statement:")
    income_statement = fundamental.get_income_statement_annual(ticker)[0]
    income_statement_1 = income_statement.T[2:]
@@ -95,5 +105,9 @@ with fundamental_data:
    st.write(cash_flow_1)   
 #-------------------------------------------------------#
 with news:
-   st.subheader('Latest TOP10')
+   st.subheader(f'Trending News of {ticker}:')
+   stock_news = StockNews(ticker,save_news=False)
+   df_news = stock_news.read_rss()
+   #Need dto Complete---
+
    
