@@ -34,7 +34,9 @@ if df is not None:
     stock_name = selected_row["name"].iloc[0]
     st.write(f"You selected: {stock_name} ({ticker})")
 
-#----------------------------#
+#----------------------------# 
+#Create multple tabs 
+#----------------------------# 
 main_container = st.container(border=True,height=93)
 column_1,column_2,column_3 = main_container.columns(3,gap="medium")
 
